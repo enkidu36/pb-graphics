@@ -1,6 +1,6 @@
 * Description
-** Repository contains Shadow-cljs client and Server compnants for pr-graphics.
+**  Repository contains Shadow-cljs client and Server compnants for pr-graphics.
 
 * References
-** [Shadow-cljs][https://github.com/thheller/shadow-cljs]
+**  [Shadow-cljs][https://github.com/thheller/shadow-cljs]
 [Helix][]
