@@ -1,0 +1,15 @@
+;; shadow-cljs configuration
+{:source-paths
+ ["src/dev"
+  "src/main"
+  "src/test"]
+
+ :dev-http {8080 "public"}
+ :dependencies
+ [[lilactown/helix "0.2.0"]]
+
+ :builds
+ {:pb-graphics
+  {:target :browser
+   :modules {:main {:init-fn pbranes.graphics.app/init!}}
+   }}}
