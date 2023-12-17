@@ -1,3 +1,23 @@
-canvas {
+body {
+    background: lightblue;
+}
+
+.webgl-canvas {
     border: 5px dotted blue;
+}
+
+a {
+    color: darkblue;
+}
+
+a:hover {
+    color: blue;
+}
+
+.nav {
+    display: flex;
+    gap: 50px;
+    font-size: 20px;
+    width: 100%;
+#    border: 1px solid grey;
 }

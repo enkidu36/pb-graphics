@@ -5,4 +5,4 @@
 * References
 
   [Shadow-cljs][https://github.com/thheller/shadow-cljs]
-[Helix][]
+  [Helix][https://github.com/lilactown/helix]
