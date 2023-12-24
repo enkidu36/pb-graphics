@@ -3,7 +3,8 @@
             [helix.dom :as d]
             [react-router-dom :as rr]
             [pbranes.graphics.layout :refer [Layout]]
-            [pbranes.graphics.page.canvas :refer [CanvasPage]]
+            [pbranes.graphics.page.canvas :refer [canvas-page]]
+            [pbranes.graphics.page.rendering :refer [rendering-page]]
             ["react-dom/client" :as rdom]))
 
 (defnc Home []
@@ -13,7 +14,8 @@
   ($ rr/Routes
      ($ rr/Route {:path "/" :element ($ Layout)}
         ($ rr/Route {:path "/" :element ($ Home)})
-        ($ rr/Route {:path "/canvas" :element ($ CanvasPage)}))))
+        ($ rr/Route {:path "/canvas" :element ($ canvas-page)})
+        ($ rr/Route {:path "/rendering" :element ($ rendering-page)}))))
 
 (defnc app []
   ($ rr/BrowserRouter

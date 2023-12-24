@@ -7,7 +7,7 @@
 (defn init [gl]
   (utils/update-clear-color gl [1.0 1.0 1.0 1.0]))
 
-(defnc CanvasPage []
+(defnc canvas-page []
   (let [canvas (hooks/use-ref nil)]
 
     (hooks/use-effect
