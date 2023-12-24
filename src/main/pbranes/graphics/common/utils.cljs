@@ -58,11 +58,17 @@
 
       index-buffer)))
 
+(defn create-vertex-array [gl]
+  (.createVertexArray gl))
+
 (defn clear-array-buffer [gl]
   (.bindBuffer gl (.-ARRAY_BUFFER gl) nil))
 
 (defn clear-element-array-buffer [gl]
   (.bindBuffer gl (.-ELEMENT_ARRAY_BUFFER gl) nil))
+
+(defn clear-vertex-array [gl]
+  (.bindVertexArray gl nil))
 
 (defn clear-scene [gl]
   (.clear gl (bit-or (.-COLOR_BUFFER_BIT gl) (.-DEPTH_BUFFER_BIT gl)))

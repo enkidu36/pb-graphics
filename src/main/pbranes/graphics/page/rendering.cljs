@@ -67,36 +67,38 @@ void main(void) {
     program))
 
 (defn init-buffers [gl program vbo ibo]
-  (let [vertex-buffer (u/create-vertex-buffer gl vbo)
+  (let [vertex-array (u/create-vertex-array gl)
         index-buffer (u/create-index-buffer gl ibo)]
+
+    ;; Create vertext array object
+    (.bindVertexArray gl vertex-array)
+
+    (u/create-vertex-buffer gl vbo)
+    
     ;; Provide instructions for VAO to use later in Draw
     (.enableVertexAttribArray gl (.-aVertexPosition program))
     (.vertexAttribPointer gl (.-aVertexPosition program) 3 (.-FLOAT gl) false 0 0)
 
     (u/create-index-buffer gl ibo)
 
+    (u/clear-vertex-array gl)
     (u/clear-array-buffer gl)
     (u/clear-element-array-buffer gl)
 
-    {:vertex-buffer vertex-buffer :index-buffer index-buffer}))
+    {:vertex-array vertex-array
+     :index-buffer index-buffer}))
 
-(defn draw [gl program buffers]
+(defn draw [gl buffers]
   ;; clear the scene
   (u/clear-scene gl)
 
-  ;;use the buffers we constructed
-  (.bindBuffer gl (.-ARRAY_BUFFER gl) (:vertex-buffer buffers))
-  (.vertexAttribPointer gl (.-aVertexPosition program) (.-FLOAT gl) 3 false 0 0)
-  (.enableVertexAttribArray gl (.-aVertexPosition program))
-
-  ;; bind IBO
+  (.bindVertexArray gl (:vertex-array buffers))
   (.bindBuffer gl (.-ELEMENT_ARRAY_BUFFER gl) (:index-buffer buffers))
-
-  ;; Draw the scene using primitive triangles
-
+  
   (.drawElements gl (.-TRIANGLES gl) (count indices) (.-UNSIGNED_SHORT gl) 0)
 
   ;; clean
+  (u/clear-vertex-array gl)
   (u/clear-array-buffer gl)
   (u/clear-element-array-buffer gl)
   )
@@ -106,7 +108,7 @@ void main(void) {
   (let [program (init-program gl)
         buffers (init-buffers gl program vertices indices)]
     (js/console.log "init")
-    (draw gl program buffers)))
+    (draw gl buffers)))
 
 (defnc rendering-page []
   (let [canvas (hooks/use-ref nil)]
