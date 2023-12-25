@@ -73,3 +73,8 @@
 (defn clear-scene [gl]
   (.clear gl (bit-or (.-COLOR_BUFFER_BIT gl) (.-DEPTH_BUFFER_BIT gl)))
   (.viewport gl 0 0 (.. gl -canvas -width) (.. gl -canvas -height)))
+
+(defn clear-all-arrays-buffers [gl]
+  (clear-vertex-array gl)
+  (clear-element-array-buffer gl)
+  (clear-array-buffer gl))

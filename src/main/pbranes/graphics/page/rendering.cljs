@@ -70,7 +70,7 @@ void main(void) {
   (let [vertex-array (u/create-vertex-array gl)
         index-buffer (u/create-index-buffer gl ibo)]
 
-    ;; Create vertext array object
+    ;; Create vertex array object
     (.bindVertexArray gl vertex-array)
 
     (u/create-vertex-buffer gl vbo)
@@ -81,10 +81,8 @@ void main(void) {
 
     (u/create-index-buffer gl ibo)
 
-    (u/clear-vertex-array gl)
-    (u/clear-array-buffer gl)
-    (u/clear-element-array-buffer gl)
-
+    (u/clear-all-arrays-buffers gl)
+    
     {:vertex-array vertex-array
      :index-buffer index-buffer}))
 
@@ -98,16 +96,14 @@ void main(void) {
   (.drawElements gl (.-TRIANGLES gl) (count indices) (.-UNSIGNED_SHORT gl) 0)
 
   ;; clean
-  (u/clear-vertex-array gl)
-  (u/clear-array-buffer gl)
-  (u/clear-element-array-buffer gl)
+  (u/clear-all-arrays-buffers gl)
+  
   )
 
 (defn init [gl]
   (.clearColor gl 0 0 0 1)
   (let [program (init-program gl)
         buffers (init-buffers gl program vertices indices)]
-    (js/console.log "init")
     (draw gl buffers)))
 
 (defnc rendering-page []
