@@ -16,6 +16,14 @@
   (.clear gl (.-COLOR_BUFFER_BIT gl))
   (.viewport gl 0 0 0 0))
 
+(defn auto-resize-canvas [canvas]
+  (let [expand-full-screen (fn []
+                             (set! (.-width canvas) (.-innerWidth js/window) )
+                             (set! (.-height canvas) (.-innerHeight js/window)))]
+    (expand-full-screen)
+
+    (.addEventListener js/window "resize" expand-full-screen)))
+
 (defn check-key [gl]
   (fn [event]
     ;; Match on key codes for numbers 1 - 4
@@ -31,6 +39,12 @@
 (defn compile-shader [gl source type]
   (let [shader (.createShader gl type)]
 
+    (when (= type (.-VERTEX_SHADER gl))
+      (js/console.log "compile:VERTEX_SHADER"))
+
+    (when (= type (.-FRAGMENT_SHADER gl))
+      (js/console.log "compile:FRAGMENT_SHADER"))
+    
     ;; Compile the source code for shader
     (.shaderSource gl shader source)
     (.compileShader gl shader)
@@ -53,7 +67,8 @@
 (defn create-index-buffer [gl buffer-data]
   (when buffer-data
     (let [index-buffer (.createBuffer gl)]
-      (.bindBuffer gl (.-ELEMENT_ARRAY_BUFFER gl) index-buffer)
+5
+(.bindBuffer gl (.-ELEMENT_ARRAY_BUFFER gl) index-buffer)
       (.bufferData gl (.-ELEMENT_ARRAY_BUFFER gl) (js/Uint16Array. buffer-data) (.-STATIC_DRAW gl))
 
       index-buffer)))
@@ -78,3 +93,5 @@
   (clear-vertex-array gl)
   (clear-element-array-buffer gl)
   (clear-array-buffer gl))
+
+

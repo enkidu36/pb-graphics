@@ -2,9 +2,8 @@
   (:require [helix.core :refer [defnc $ <>]]
             [helix.dom :as d]
             [helix.hooks :as hooks]
-            [pbranes.graphics.hooks.canvas-hook :refer [use-init-canvas]]
             [pbranes.graphics.common.utils :as u]
-            [cljs.core :as core]))
+            ["dat.gui" :as dg]))
 
 (set! *warn-on-infer* false)
 
@@ -19,6 +18,8 @@
 (def indices
   [0 1 2
    0 2 3])
+
+(def dat-gui (atom nil))
 
 (def vs-shader
   "#version 300 es
@@ -74,15 +75,13 @@ void main(void) {
     (.bindVertexArray gl vertex-array)
 
     (u/create-vertex-buffer gl vbo)
-    
+
     ;; Provide instructions for VAO to use later in Draw
     (.enableVertexAttribArray gl (.-aVertexPosition program))
     (.vertexAttribPointer gl (.-aVertexPosition program) 3 (.-FLOAT gl) false 0 0)
 
-    (u/create-index-buffer gl ibo)
-
     (u/clear-all-arrays-buffers gl)
-    
+
     {:vertex-array vertex-array
      :index-buffer index-buffer}))
 
@@ -92,24 +91,35 @@ void main(void) {
 
   (.bindVertexArray gl (:vertex-array buffers))
   (.bindBuffer gl (.-ELEMENT_ARRAY_BUFFER gl) (:index-buffer buffers))
-  
+
   (.drawElements gl (.-TRIANGLES gl) (count indices) (.-UNSIGNED_SHORT gl) 0)
 
   ;; clean
-  (u/clear-all-arrays-buffers gl)
-  
-  )
+  (u/clear-all-arrays-buffers gl))
 
-(defn init [gl]
+(defn init [gl controls]
   (.clearColor gl 0 0 0 1)
   (let [program (init-program gl)
-        buffers (init-buffers gl program vertices indices)]
+        buffers (init-buffers gl program vertices indices)
+        pallette (clj->js {:color1 "#FF0000"})]
+
+    (.addFolder controls "Folder")
+    (.addColor controls pallette "color1")
+
     (draw gl buffers)))
 
 (defnc rendering-page []
   (let [canvas (hooks/use-ref nil)]
 
-    (use-init-canvas canvas init)
+    (hooks/use-effect
+     :once
+     (let [gl (u/get-context canvas)
+           controls (dg/GUI.)]
+       (init gl controls)
+
+       (fn unmount []
+         (.destroy (.getRoot controls))
+         (js/console.log "unmount"))))
 
     (d/canvas {:ref canvas :className "webgl-canvas" :height 600 :width 800}
               "Your browser does not support HTML5 canvas.")))

@@ -5,6 +5,8 @@
             [pbranes.graphics.layout :refer [Layout]]
             [pbranes.graphics.page.canvas :refer [canvas-page]]
             [pbranes.graphics.page.rendering :refer [rendering-page]]
+            [pbranes.graphics.page.render-modes :refer [modes-page]]
+            [pbranes.graphics.page.lighting :refer [lighting-page]]
             ["react-dom/client" :as rdom]))
 
 (defnc Home []
@@ -15,7 +17,9 @@
      ($ rr/Route {:path "/" :element ($ Layout)}
         ($ rr/Route {:path "/" :element ($ Home)})
         ($ rr/Route {:path "/canvas" :element ($ canvas-page)})
-        ($ rr/Route {:path "/rendering" :element ($ rendering-page)}))))
+        ($ rr/Route {:path "/rendering" :element ($ rendering-page)})
+        ($ rr/Route {:path "/modes" :element ($ modes-page)})
+        ($ rr/Route {:path "/lighting" :element ($ lighting-page)}))))
 
 (defnc app []
   ($ rr/BrowserRouter
