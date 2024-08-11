@@ -2,6 +2,11 @@
 
 (set! *warn-on-infer* false)
 
+(defn get-canvas [id]
+  (if-let [canvas (js/document.getElementById id)]
+    canvas
+    (js/console.error (str "There is no canvas with id " id " on this page."))))
+
 (defn get-context
   ^{:doc "Multi arity method to get the canvas context by type
     default to 3d graphics. Type can be \"webgl2\" or \"2d\""}
@@ -11,6 +16,17 @@
      (.getContext @canvas type)
      (js/console.error "No HTML5 canvas found!"))))
 
+(defn get-gl-context
+  ^{:doc "Multi arity method to get the canvas context by type
+    default to 3d graphics. Type can be \"webgl2\" or \"2d\""}
+  ([canvas] (get-gl-context canvas "webgl2"))
+  ([canvas type]
+   (if canvas
+     (.getContext canvas type)
+     (js/console.error "No HTML5 canvas found!"))))
+
+
+
 (defn update-clear-color [gl [r g b a]]
   (.clearColor gl r g b a)
   (.clear gl (.-COLOR_BUFFER_BIT gl))
@@ -18,7 +34,7 @@
 
 (defn auto-resize-canvas [canvas]
   (let [expand-full-screen (fn []
-                             (set! (.-width canvas) (.-innerWidth js/window) )
+                             (set! (.-width canvas) (.-innerWidth js/window))
                              (set! (.-height canvas) (.-innerHeight js/window)))]
     (expand-full-screen)
 
@@ -44,7 +60,7 @@
 
     (when (= type (.-FRAGMENT_SHADER gl))
       (js/console.log "compile:FRAGMENT_SHADER"))
-    
+
     ;; Compile the source code for shader
     (.shaderSource gl shader source)
     (.compileShader gl shader)
@@ -54,21 +70,20 @@
       shader
       (js/console.log (.getShaderInfoLog gl shader)))))
 
-
 (defn create-vertex-buffer [gl buffer-data]
   (when buffer-data
     (let [vertex-buffer (.createBuffer gl)]
-      
+
       (.bindBuffer gl (.-ARRAY_BUFFER gl) vertex-buffer)
       (.bufferData gl (.-ARRAY_BUFFER gl) (js/Float32Array. buffer-data) (.-STATIC_DRAW gl))
-      
+
       vertex-buffer)))
 
 (defn create-index-buffer [gl buffer-data]
   (when buffer-data
     (let [index-buffer (.createBuffer gl)]
-5
-(.bindBuffer gl (.-ELEMENT_ARRAY_BUFFER gl) index-buffer)
+      5
+      (.bindBuffer gl (.-ELEMENT_ARRAY_BUFFER gl) index-buffer)
       (.bufferData gl (.-ELEMENT_ARRAY_BUFFER gl) (js/Uint16Array. buffer-data) (.-STATIC_DRAW gl))
 
       index-buffer)))

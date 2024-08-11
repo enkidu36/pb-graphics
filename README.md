@@ -1,6 +1,6 @@
 * Description
   
-  Repository contains Shadow-cljs client and Server compnants for pr-graphics.
+  Repository contains Shadow-cljs client and Server components for pr-graphics.
 
 * References
 
