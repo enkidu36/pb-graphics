@@ -1,0 +1,9 @@
+* PB Graphics project
+** TODO Lighting Chapter
++ [-] Clean up lighting.cljs page [1/6]
+  + [X] Remove Clojure calculate normal code
+  + [ ] Add server endpoint to return JSON for vertices and indices for geometry
+  + [ ] Add calls to fetch geometry JSON
+  + [ ] Add Javascript libraries for page to public js dir of to packages
+  + [ ] Update Clojure code to make page work
+  + [ ] ... to be continued

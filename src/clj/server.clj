@@ -15,31 +15,55 @@
    [ring.adapter.jetty :as jetty]
    [ring.middleware.cors :refer [wrap-cors]]
    [ring.middleware.reload :refer [wrap-reload]]
-   [ring.util.response :as r]))
+   [ring.middleware.resource :refer [wrap-resource]]
+   [ring.util.response :as r]
+   [clojure.java.io :as io]))
 
+(defn load-geometry-handler [{{{:keys [filename]} :query} :parameters}]
+  (-> (str "public/model/geometries/" filename)
+      (slurp)
+      (r/response)
+      (r/content-type "application/json")))
 
-(defn
-  testing-handler [_]
-  (r/response "<h1>Hello Dollyyyy</h1>"))
+(defn load-image-handler [{{{:keys [filename]} :query} :parameters}]
+  (-> (str "public/images/" filename)
+      (io/file)
+      (r/response)
+      (r/content-type "image/png")))
 
 
 (def app
   (ring/ring-handler
-   
+
    (ring/router
     [["/swagger.json"
       {:get {:no-doc true
-             :Swagger {:info {:title "pb-grapics-api"
+             :swagger {:info {:title "pb-graphics-api"
                               :description "reitit ring with swagger, spec"}}
              :handler (swagger/create-swagger-handler)}}]
-     
 
-     ["/testing"
-      {:middleware [#(wrap-cors % :access-control-allow-origin [#".*"]
-                                :access-control-allow-methods [:get])]
-       :get {
-             :handler testing-handler}}]
-     ]
+     ["/load"
+      {:swagger {:tags ["files"]}}
+
+      ["/geometry"
+       {:middleware [#(wrap-cors % :access-control-allow-origin [#".*"]
+                                 :access-control-allow-methods [:get])]
+        :get {:summary "Download a json geometry"
+              :swagger {:info {:title "load geometries"
+                               :description "load files with geometries"}
+                        :produces ["text/json"]}
+              :parameters {:query {:filename string?}}
+              :handler load-geometry-handler}}]
+
+      ["/image"
+       {:middleware [#(wrap-cors % :access-control-allow-origin [#".*"]
+                                 :access-control-allow-methods [:get])]
+        :get {:summary "Download an image"
+              :swagger {:info {:title "load image"
+                               :description "load files with images"}
+                        :produces ["image/png"]}
+              :parameters {:query {:filename string?}}
+              :handler load-image-handler}}]]]
 
     { ;;:reitit.middleware/transform dev/print-request-diffs ;; pretty diffs
      ;;:validate spec/validate ;; enable spec validation for route data
@@ -73,7 +97,9 @@
                :operationsSorter "alpha"}})
     (ring/create-default-handler))))
 
-(defonce server  (jetty/run-jetty (wrap-reload  #'app)
+(defonce server  (jetty/run-jetty (-> #'app
+                                      wrap-reload
+                                      (wrap-resource "public"))
                                   {:port 3000, :join? false}))
 
 (defn start []

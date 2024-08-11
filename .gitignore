@@ -24,3 +24,5 @@ pom.xml.asc
 
 .hgignore
 .hg/
+/src/main/pbranes/graphics/geometry/
+/.#README.md
