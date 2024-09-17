@@ -12,4 +12,6 @@
  {:pb-graphics
   {:target :browser
    :modules {:main {:init-fn pbranes.graphics.app/init!}}
+   :asset-path "/js"
    }}}
+y

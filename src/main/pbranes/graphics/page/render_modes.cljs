@@ -9,7 +9,7 @@
 
 (def v-shader
   "#version 300 es
-precision mediump float;
+   precision mediump float;
 
 // Suppliced vertex position attribute
 in vec3 aVertexPosition;
