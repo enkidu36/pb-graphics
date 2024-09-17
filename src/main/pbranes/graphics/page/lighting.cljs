@@ -102,7 +102,11 @@ precision mediump float;
   (let [program (init-program gl)]
     (init-buffers program))
   (js/console.log (js->clj [0 1 2 1 2 3]))
+<<<<<<< HEAD
 
+=======
+  ;;  (js/console.log (js/utils.calculateNormals (js->clj vertices) (js->clj indices)))
+>>>>>>> 5e49a65 (Added load image endpoint)
   )
 
 (defnc lighting-page []
