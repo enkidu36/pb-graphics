@@ -4,7 +4,8 @@
   "src/main"
   "src/test"]
 
- :dev-http {8080 "public"}
+ :dev-http {8080 "public"
+            8021 "out/test"}
  :dependencies
  [[lilactown/helix "0.2.0"]]
 
@@ -13,5 +14,9 @@
   {:target :browser
    :modules {:main {:init-fn pbranes.graphics.app/init!}}
    :asset-path "/js"
-   }}}
-y
+   }
+
+  :browser-test
+  {:target :browser-test
+   :test-dir "out/test"}}}
+

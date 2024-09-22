@@ -101,8 +101,11 @@ precision mediump float;
 (defn init [gl controls]
   (let [program (init-program gl)]
     (init-buffers program))
+<<<<<<< HEAD
   (js/console.log (js->clj [0 1 2 1 2 3]))
 
+=======
+>>>>>>> 58620b4 (add some testsc)
   )
 
 (defnc lighting-page []
