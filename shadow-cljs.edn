@@ -16,6 +16,7 @@
    :asset-path "/js"
    }
 
+  ;; unit tests
   :browser-test
   {:target :browser-test
    :test-dir "out/test"}}}
