@@ -14,7 +14,7 @@
   (mapv #(* % 255) color))
 
 (defn folder?
-  "Setting is a folder when it is a map and has no value"
+  "Setting is a folder when it is a map and has no values"
   [setting]
   (and (map? setting) (nil? (:value setting))))
 
