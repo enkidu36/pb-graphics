@@ -30,7 +30,7 @@
    (and (string? setting) (re-find #"#" setting))
    (and (vector? setting) (>= 3 (count setting)))))
 
-(defn config-controls
+(defn configure-controls
   "Declare function so can be used recursively.  Defined below"
   [_ _ _])
 
@@ -46,7 +46,7 @@
       (.add gui (clj->js @(swap! state assoc setting-key setting-value)))
 
       (folder? setting-value)
-      (config-controls setting-value {:gui (.addFolder gui setting-key)})
+      (configure-controls setting-value {:gui (.addFolder gui setting-key) :open true})
 
       :else
       (let [{:keys [value min max step options onChange] :or {onChange #(js/console.log "onChange")}} setting-value
@@ -66,9 +66,9 @@
 
         (.onChange @controller #(onChange % @state))))))
 
-(defn config-controls
+(defn configure-controls
   "Multi method for building DATGUI controls"
-  ([settings] (config-controls settings {:width 300}))
+  ([settings] (configure-controls settings {:width 300 }))
   ([settings options]
 
    (let [gui (if (:gui options)
@@ -87,11 +87,11 @@
          (do
            (create-controller gui setting state)
            (recur (first more) (rest more)))))
-     gui)))
+     (if (:open options) (.open gui) (.close gui)))))
 
 (comment
 
-  (config-controls  {"Parent Color" {:value 0 :min 0 :max 100 :step 2 :onChange (fn [v] (js/console.log (str "Hello " v)))}
+  (configure-controls  {"Parent Color" {:value 0 :min 0 :max 100 :step 2 :onChange (fn [v] (js/console.log (str "Hello " v)))}
                      "Color" {"Sphere Color" {:value "#ff0000"}
                               "Square Color" {:value "#00ff00"}
                               "Triangle Color" {:value "#0000ff"}}})

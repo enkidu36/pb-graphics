@@ -47,7 +47,10 @@
                  (u/get-gl-context)))
   (u/auto-resize-canvas (.-canvas @gl))
 
-;;  (js/utils.configureControls (clj->js {"Color" {"Sphere Color" {:value "#ff0000"}}}) (clj->js {:color "green" :width 800}))
+  (dg/configure-controls  {"Color"
+                           {"Sphere Color" {:value "#ff0000"}
+                            "Ball Color" {:value "#00ff00"}}
+                           }  {:width 300 :open true})
 
   (.clearColor @gl 0.9 0.9 0.9 1)
   (.clearDepth @gl 1)
