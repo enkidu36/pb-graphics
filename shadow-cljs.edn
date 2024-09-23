@@ -4,8 +4,7 @@
   "src/main"
   "src/test"]
 
- :dev-http {8080 "public"
-            8021 "out/test"}
+ :dev-http {8080 "public"}
  :dependencies
  [[lilactown/helix "0.2.0"]]
 

@@ -20,6 +20,4 @@
 (deftest action-test
   (is (dg/action? #(prn "hi"))))
 
-(deftest testfn-test
-  (is (dg/testfn 5)))
 

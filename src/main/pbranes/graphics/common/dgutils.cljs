@@ -30,18 +30,16 @@
    (and (string? setting) (re-find #"#" setting))
    (and (vector? setting) (>= 3 (count setting)))))
 
-(defn testfn [x]
-  (= 5 x))
-
-(defn config-controls "Declare function so can be used recursively.  Defined below" [_ _])
+(defn config-controls
+  "Declare function so can be used recursively.  Defined below"
+  [_ _ _])
 
 (defn create-controller
   "Create and add datGUI controllers"
-  [gui setting]
+  [gui setting state]
 
   (let [setting-key (first setting)
-        setting-value (second setting)
-        state (atom {})]
+        setting-value (second setting)]
 
     (cond
       (action? setting-value)
@@ -75,7 +73,8 @@
 
    (let [gui (if (:gui options)
                (:gui options)
-               (dg/GUI. (clj->js options)))]
+               (dg/GUI. (clj->js options)))
+         state (atom {})]
 
      (loop [setting (first settings)
             more (rest settings)]
@@ -86,7 +85,7 @@
 
          ;; false: create controller and continue
          (do
-           (create-controller gui setting)
+           (create-controller gui setting state)
            (recur (first more) (rest more)))))
      gui)))
 
@@ -96,7 +95,6 @@
                      "Color" {"Sphere Color" {:value "#ff0000"}
                               "Square Color" {:value "#00ff00"}
                               "Triangle Color" {:value "#0000ff"}}})
-
   )
 
 
