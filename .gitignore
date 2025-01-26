@@ -7,7 +7,13 @@ public/js
 .clj-kondo/
 .cpcache/
 .lsp/
-
+.clerk/
+.dir-locals.el
+.rebl/
+out/
+public/images/
+public/model/
+resources/
 
 *.*#
 *.*~
