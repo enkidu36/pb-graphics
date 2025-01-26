@@ -25,7 +25,18 @@
      (.getContext canvas type)
      (js/console.error "No HTML5 canvas found!"))))
 
+(defn mount-shader
 
+  [id type program]
+   (let [script (js/document.createElement "script")
+        head (nth (array-seq (js/document.getElementsByTagName "head")) 0)]
+
+    (set! (.-id script) id)
+    (set! (.-type script) type)
+    (set! (.-innerHTML script) program)
+    (.appendChild head script)
+
+    script))
 
 (defn update-clear-color [gl [r g b a]]
   (.clearColor gl r g b a)
@@ -55,11 +66,11 @@
 (defn compile-shader [gl source type]
   (let [shader (.createShader gl type)]
 
-    (when (= type (.-VERTEX_SHADER gl))
-      (js/console.log "compile:VERTEX_SHADER"))
+    ;; (when (= type (.-VERTEX_SHADER gl))
+    ;;   (js/console.log "compile:VERTEX_SHADER"))
 
-    (when (= type (.-FRAGMENT_SHADER gl))
-      (js/console.log "compile:FRAGMENT_SHADER"))
+    ;; (when (= type (.-FRAGMENT_SHADER gl))
+    ;;   (js/console.log "compile:FRAGMENT_SHADER"))
 
     ;; Compile the source code for shader
     (.shaderSource gl shader source)
@@ -82,7 +93,6 @@
 (defn create-index-buffer [gl buffer-data]
   (when buffer-data
     (let [index-buffer (.createBuffer gl)]
-      5
       (.bindBuffer gl (.-ELEMENT_ARRAY_BUFFER gl) index-buffer)
       (.bufferData gl (.-ELEMENT_ARRAY_BUFFER gl) (js/Uint16Array. buffer-data) (.-STATIC_DRAW gl))
 

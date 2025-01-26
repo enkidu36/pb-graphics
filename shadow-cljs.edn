@@ -4,9 +4,18 @@
   "src/main"
   "src/test"]
 
- :dev-http {8080 "public"}
+ :dev-http {8080 "public"
+            3001 "out/test"}
  :dependencies
- [[lilactown/helix "0.2.0"]]
+ [[lilactown/helix "0.2.0"]
+  [binaryage/oops "0.7.2"]
+  [cider/cider-nrepl "0.50.2"]
+  [refactor-nrepl/refactor-nrepl "3.9.0"]
+  [cljs-http "0.1.48"]]
+
+ :nrepl {:middleware [cider.nrepl/cider-middleware 
+                      refactor-nrepl.middleware/wrap-refactor] ;; refactor-nrepl is optional
+         :port 50655} 
 
  :builds
  {:pb-graphics
@@ -19,4 +28,5 @@
   :browser-test
   {:target :browser-test
    :test-dir "out/test"}}}
+
 

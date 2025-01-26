@@ -13,9 +13,7 @@
    (d/nav
     (d/ul {:class-name "nav" :style {:list-style-type "none"}}
       ($ NavItem {:path "/" :label "Home"})
-      ($ NavItem {:path "/canvas" :label "Canvas"})
-      ($ NavItem {:path "/rendering" :label "Rendering"})
       ($ NavItem {:path "/modes" :label "Render Modes"})
       ($ NavItem {:path "/lighting" :label "Lighting"})
-      ($ NavItem {:path "/final" :label "Final"})))
+      ($ NavItem {:path "/camera" :label "Camera"})))
    ($ Outlet)))

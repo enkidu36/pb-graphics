@@ -1,6 +1,7 @@
 (ns server
   (:require ;; Uncomment to use 
  ;;[reitit.ring.middleware.dev :as dev]
+   [nextjournal.clerk :as clerk]
    [muuntaja.core :as m]
    [reitit.dev.pretty :as pretty]
    [reitit.ring :as ring]
@@ -102,6 +103,9 @@
                                       (wrap-resource "public"))
                                   {:port 3000, :join? false}))
 
+(defn my-test [] (prn "hello"))
+(my-test)
+
 (defn start []
   (.start server)
   (println "server running in port 3000"))
@@ -109,8 +113,28 @@
 (defn stop []
   (.stop server))
 
+(start)
+
+;;(clerk/serve! {:browse true})
 (comment
   (start)
   (stop)
 
-  (stop))
+  (stop)
+  ;; start Clerk's built-in webserver on the default port 7777, opening the browser when done
+  ;;  (clerk/serve! {:browse true})
+
+  ;; either call `clerk/show!` explicitly
+  ;; (clerk/show! "notebooks/rule_30.clj")   
+
+  ;; or let Clerk watch the given `:paths` for changes
+ (clerk/serve! { :watch-paths ["src"]})
+
+  ;; start with watcher and show filter function to enable notebook pinning
+  ;; (clerk/serve! {:watch-paths ["notebooks" "src"] :show-filter-fn #(clojure.stri;;ng/starts-with? % "notebooks"
+  ;;                                                                   )})
+
+  ;; Build a html file from the given notebook notebooks.
+  ;; See the docstring for more options.
+                                        ;(clerk/build! {:paths ["notebooks/rule_30.clj"]})
+  )
