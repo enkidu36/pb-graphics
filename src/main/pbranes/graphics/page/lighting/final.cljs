@@ -151,7 +151,6 @@
 (defn init-program [ctx]
   ;; Configure canvas
   (reset! gl ctx)
-;;  (u/auto-resize-canvas (.-canvas ctx))
 
   (.clearColor ctx  0.9 0.9 0.9 1)
   (.enable ctx (.-DEPTH_TEST ctx))
@@ -245,7 +244,7 @@
                                   (m4/translate-matrix [0.0 0.0 -1.5])
                                   (m4/rotate-matrix (* @angle (/ Math/PI 180)) [0 1 0])))
 
-;; Normal Matrix
+    ;; Normal Matrix
     (reset! normal-matrix (-> @normal-matrix
                               (m4/copy-matrix @model-view-matrix)
                               (m4/transpose-matrix)))
@@ -284,6 +283,7 @@
 
 (defn init [controls]
   (let [ctx (-> "final-canvas" (u/get-canvas) (u/get-gl-context))]
+    (u/auto-resize-canvas (.-canvas ctx))
     (init-program ctx)
     (init-buffers ctx)
     (init-lights ctx)

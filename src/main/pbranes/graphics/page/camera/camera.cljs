@@ -8,7 +8,7 @@
             [pbranes.graphics.common.utils :as u]
             [cljs-http.client :as http]
             [cljs.core.async :refer [<!]]
-            [pbranes.graphics.common.scene :as scene]
+            [pbranes.graphics.common.scene :refer [->Scene get-by-alias]]
             [pbranes.graphics.common.program :refer [create-shader-program load-program! create-program-map]]))
 
 (set! *warn-on-infer* false)
@@ -128,10 +128,11 @@
   (reset! scene (js/Scene.)))
 
 (defn init [controls]
-  (let [ctx (-> "final-canvas" (u/get-canvas) (u/get-gl-context))]
+  (let [ctx (-> "final-canvas" (u/get-canvas) (u/get-gl-context))
+        s (->Scene nil nil nil)]
     (u/auto-resize-canvas ctx)
     (configure ctx)
-    
+    (js/console.log (get-by-alias s "hello"))
     ))
 
 (defnc camera-page []

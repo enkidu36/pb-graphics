@@ -44,6 +44,7 @@
   (.viewport gl 0 0 0 0))
 
 (defn auto-resize-canvas [canvas]
+  (js/console.log canvas)
   (let [expand-full-screen (fn []
                              (set! (.-width canvas) (.-innerWidth js/window))
                              (set! (.-height canvas) (.-innerHeight js/window)))]
