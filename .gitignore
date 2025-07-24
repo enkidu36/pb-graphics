@@ -7,6 +7,10 @@ public/js
 .clj-kondo/
 .cpcache/
 .lsp/
+.clerk/
+.rebl/
+.dir-locals.el
+/out
 
 
 *.*#
@@ -26,3 +30,6 @@ pom.xml.asc
 .hg/
 /src/main/pbranes/graphics/geometry/
 /.#README.md
+public/model/
+public/images/
+resources/
