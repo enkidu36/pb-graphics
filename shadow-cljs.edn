@@ -1,17 +1,22 @@
-;; shadow-cljs configuration
-{:source-paths
- ["src/dev"
-  "src/main"
-  "src/test"]
+{:deps true
+ 
+ :nrepl {:middleware [cider.nrepl/cider-middleware 
+                      refactor-nrepl.middleware/wrap-refactor] ;; refactor-nrepl is optional
+         :port 50655} 
 
- :dev-http {8080 "public"}
- :dependencies
- [[lilactown/helix "0.2.0"]]
+ :dev-http {8080 "public"
+            3001 "out/test"}
 
  :builds
  {:pb-graphics
   {:target :browser
    :modules {:main {:init-fn pbranes.graphics.app/init!}}
    :asset-path "/js"
-   }}}
-y
+   }
+
+  ;; unit tests
+  :browser-test
+  {:target :browser-test
+   :test-dir "out/test"}}}
+
+
