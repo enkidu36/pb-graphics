@@ -7,4 +7,4 @@
   refactor-nrepl/refactor-nrepl {:mvn/version "3.11.0"}
   binaryage/oops {:mvn/version "0.7.2"}
   cljs-http/cljs-http {:mvn/version "0.1.48"}
-  enkidu36/pb-graphics-lib {:git/url "https://github.com/enkidu36/pb-graphics-lib.git" :git/sha "eb339e65a4bfa542b102f33e93b9f823afb881a3"} }}
+  }}
